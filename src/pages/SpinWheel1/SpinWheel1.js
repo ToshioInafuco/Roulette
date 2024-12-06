@@ -3,21 +3,7 @@ import '../SpinWheel1/style.css';
 import { useNavigate } from 'react-router-dom';
 import Wheel from '../../components/wheel';
 
-const MEANINGS = [
-  'batata',
-  'polenta',
-  'pão',
-  'macarrão',
-  'arroz',
-  'feijão',
-  'bife',
-  'salada',
-  'frango',
-  'pizza',
-  'hambúrguer',
-  'peixe',
-  'sopa',
-];
+const bla = process.env.REACT_APP_LOCAL;
 
 const SpinWheel1 = () => {
   const navigate = useNavigate();
@@ -37,7 +23,7 @@ const SpinWheel1 = () => {
       <button onClick={() => navigate('/')} style={{ marginBottom: '50px' }}>
         Voltar para a Página Inicial
       </button>
-      <Wheel values={MEANINGS} />
+      <Wheel values={bla} />
     </div>
   );
 };
