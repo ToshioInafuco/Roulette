@@ -5,12 +5,26 @@ import PropTypes from 'prop-types';
 import './wheel.css';
 import NumberModal from './NumberModal';
 
-const Wheel = ({ values }) => {
+const Wheel = () => {
   const chartWheelRef = useRef(null);
   const spinBtnRef = useRef(null);
+  const [winner, setWinner] = useState(null);
+  const [modalOpen, setModalOpen] = useState(false);
+
+  // Carrega os valores do ambiente
+  const loadValuesFromEnv = () => {
+    const envValues = process.env.REACT_APP_LOCAL;
+    if (!envValues) return [];
+    // Transforma a string "1:No cama,2:No chão" em um objeto
+    const parsedValues = envValues.split(',').map((pair) => {
+      const [key, value] = pair.split(':');
+      return value.trim();
+    });
+    return parsedValues;
+  };
+
+  const values = loadValuesFromEnv(); // Valores carregados do ambiente
   const numSegments = values.length;
-  const [winner, setWinner] = useState(null); // Estado para armazenar o vencedor
-  const [modalOpen, setModalOpen] = useState(false); // Controle do modal
 
   useEffect(() => {
     const chartWheel = chartWheelRef.current;
@@ -96,13 +110,18 @@ const Wheel = ({ values }) => {
             },
           },
         },
+        interaction: {
+          mode: 'none', // Remove interações do hover
+        },
+        hover: {
+          mode: null, // Desativa o hover
+        },
       },
     });
 
-    // Função que simula a rotação
     function rotation() {
       const randomRotation = Math.random() * 333; // Definir um valor de rotação aleatória
-      const targetRotation = randomRotation + 360; // A roleta irá girar pelo menos 10 vezes
+      const targetRotation = randomRotation + 360;
 
       let currentRotation = 0;
       const rotateWheel = () => {
@@ -123,7 +142,7 @@ const Wheel = ({ values }) => {
                 setModalOpen(true);
               }
             });
-          }, 500); // Pequeno atraso para o cálculo correto do vencedor
+          }, 500);
         }
       };
 
@@ -156,12 +175,8 @@ const Wheel = ({ values }) => {
         </button>
       </div>
       <div id="final-value"></div>
-      {/* Adicionando o elemento com id 'winner' */}
       {modalOpen && (
-        <NumberModal
-          meaning={winner}
-          onClose={() => setModalOpen(false)} // Fecha o modal ao clicar no botão "Close"
-        />
+        <NumberModal meaning={winner} onClose={() => setModalOpen(false)} />
       )}
     </div>
   );
