@@ -96,6 +96,12 @@ const Wheel = ({ values }) => {
             },
           },
         },
+        interaction: {
+          mode: 'none', // Remove interações do hover
+        },
+        hover: {
+          mode: null, // Desativa o hover
+        },
       },
     });
 

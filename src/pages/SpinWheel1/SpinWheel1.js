@@ -3,26 +3,14 @@ import '../SpinWheel1/style.css';
 import { useNavigate } from 'react-router-dom';
 import Wheel from '../../components/wheel';
 
-const MEANINGS = [
-  'batata',
-  'polenta',
-  'pão',
-  'macarrão',
-  'arroz',
-  'feijão',
-  'bife',
-  'salada',
-  'frango',
-  'pizza',
-  'hambúrguer',
-  'peixe',
-  'sopa',
-];
+
+const MEANINGS = (process.env.REACT_APP_WHEEL_VALUES || '')
+  .split(',')
+  .map(item => item.split(':')[1]?.trim()) // Pega o valor após os `:`
+  .filter(Boolean); // Remove itens inválidos ou nulos
 
 const SpinWheel1 = () => {
   const navigate = useNavigate();
-
-  // Converta MEANINGS em um array de valores para passar ao componente Wheel
 
   return (
     <div
